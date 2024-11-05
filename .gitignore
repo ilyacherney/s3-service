@@ -1,3 +1,5 @@
 */target
 /.idea
 /storage
+/server_repository
+/client_repository

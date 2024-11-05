@@ -10,7 +10,10 @@
     <packaging>pom</packaging>
     <modules>
         <module>http-server</module>
-        <module>file-system</module>
+        <module>file-storage</module>
+        <module>cloud-box-server</module>
+        <module>cloud-box-client</module>
+        <module>cloud-box-common</module>
     </modules>
 
     <properties>
