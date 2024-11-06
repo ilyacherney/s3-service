@@ -7,6 +7,6 @@ public class Application {
     // 3. * Добавьте обработку 405 Method Not Allowed
 
     public static void main(String[] args) {
-        new HttpServer(8189).start();
+        new HttpServer(8190).start();
     }
 }

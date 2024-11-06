@@ -9,6 +9,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.http.HttpClientCodec;
 
 import java.net.InetSocketAddress;
 import java.util.concurrent.CountDownLatch;
@@ -38,6 +39,7 @@ public class Network {
                     .remoteAddress(new InetSocketAddress(hostname, port))
                     .handler(new ChannelInitializer<SocketChannel>() {
                         protected void initChannel(SocketChannel socketChannel) throws Exception {
+                            socketChannel.pipeline().addLast(new HttpClientCodec());
                             socketChannel.pipeline().addLast(new ProtoHandler("client_storage", new ClientCommandReceiver()));
                             currentChannel = socketChannel;
                         }

@@ -2,7 +2,9 @@ package com.flamexander.cloud.box.common;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.*;
+import io.netty.handler.codec.http.*;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -25,5 +27,23 @@ public class ProtoFileSender {
         if (finishListener != null) {
             transferOperationFuture.addListener(finishListener);
         }
+    }
+
+    public static void sendFileAsHttpPost(Path path, Channel channel) throws IOException {
+        byte[] fileContent = Files.readAllBytes(path); // Чтение файла в массив байтов
+        ByteBuf content = Unpooled.wrappedBuffer(fileContent); // Упаковка содержимого файла в ByteBuf
+
+        // Создание HTTP запроса POST с URI "/upload"
+        FullHttpRequest request = new DefaultFullHttpRequest(
+                HttpVersion.HTTP_1_1, HttpMethod.POST, "/upload", content);
+
+        // Установка заголовков
+        request.headers().set(HttpHeaderNames.HOST, "localhost");
+        request.headers().set(HttpHeaderNames.CONTENT_TYPE, "application/octet-stream"); // MIME тип
+        request.headers().set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
+        request.headers().set("Filename", path.getFileName().toString()); // Имя файла в заголовке
+
+        // Отправка HTTP запроса через канал
+        channel.writeAndFlush(request);
     }
 }

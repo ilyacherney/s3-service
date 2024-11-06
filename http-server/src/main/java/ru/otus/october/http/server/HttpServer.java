@@ -26,12 +26,14 @@ public class HttpServer {
             LOGGER.info("Сервер запущен на порту: " + port);
             while (true) {
                 try (Socket socket = serverSocket.accept()) {
+                    LOGGER.info("Соединение установлено.");
                     byte[] buffer = new byte[8192];
                     int n = socket.getInputStream().read(buffer);
                     if (n < 1) {
                         continue;
                     }
                     String rawRequest = new String(buffer, 0, n);
+                    LOGGER.info(rawRequest);
                     HttpRequest request = new HttpRequest(rawRequest);
                     request.info();
                     dispatcher.execute(request, socket.getOutputStream());

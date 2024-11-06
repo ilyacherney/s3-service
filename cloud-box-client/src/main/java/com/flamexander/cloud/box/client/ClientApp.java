@@ -36,6 +36,16 @@ public class ClientApp {
             if (cmd.equals("/exit")) {
                 break;
             }
+            if (cmd.startsWith("/http ")) {
+                String filename = cmd.split("\\s")[1];
+                Path filePath = Paths.get(CLIENT_STORAGE_PATH, filename);
+                if (!Files.exists(filePath)) {
+                    System.out.println("Файл для отправки не найден в репозитории");
+                    continue;
+                }
+                ProtoFileSender.sendFileAsHttpPost(filePath, Network.getInstance().getCurrentChannel());
+                continue;
+            }
             if (cmd.startsWith("/send ")) {
                 String filename = cmd.split("\\s")[1];
                 Path filePath = Paths.get(CLIENT_STORAGE_PATH, filename);
