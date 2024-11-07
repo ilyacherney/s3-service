@@ -29,13 +29,14 @@ public class ProtoFileSender {
         }
     }
 
-    public static void sendFileAsHttpPost(Path path, Channel channel) throws IOException {
+    public static void sendFileAsHttpPost(Path path, Channel channel, String bucket, String key) throws IOException {
         byte[] fileContent = Files.readAllBytes(path); // Чтение файла в массив байтов
         ByteBuf content = Unpooled.wrappedBuffer(fileContent); // Упаковка содержимого файла в ByteBuf
 
         // Создание HTTP запроса POST с URI "/upload"
         FullHttpRequest request = new DefaultFullHttpRequest(
-                HttpVersion.HTTP_1_1, HttpMethod.POST, "/upload", content);
+//                HttpVersion.HTTP_1_1, HttpMethod.POST, "/" + bucket + "/" + key, content);
+                HttpVersion.HTTP_1_1, HttpMethod.POST, "/" + bucket + "/" + key, content);
 
         // Установка заголовков
         request.headers().set(HttpHeaderNames.HOST, "localhost");

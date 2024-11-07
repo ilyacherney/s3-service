@@ -37,13 +37,16 @@ public class ClientApp {
                 break;
             }
             if (cmd.startsWith("/http ")) {
-                String filename = cmd.split("\\s")[1];
+                String[] cmdArr = cmd.split("\\s");
+                String filename = cmdArr[1];
+                String bucket = cmdArr[2];
+                String key = cmdArr[3];
                 Path filePath = Paths.get(CLIENT_STORAGE_PATH, filename);
                 if (!Files.exists(filePath)) {
                     System.out.println("Файл для отправки не найден в репозитории");
                     continue;
                 }
-                ProtoFileSender.sendFileAsHttpPost(filePath, Network.getInstance().getCurrentChannel());
+                ProtoFileSender.sendFileAsHttpPost(filePath, Network.getInstance().getCurrentChannel(), bucket, key);
                 continue;
             }
             if (cmd.startsWith("/send ")) {
