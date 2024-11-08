@@ -3,4 +3,4 @@
 /storage
 /server_repository
 /client_repository
-/logs
+logs/
