@@ -33,9 +33,9 @@ public class HttpServer {
                         continue;
                     }
                     String rawRequest = new String(buffer, 0, n);
-                    LOGGER.info(rawRequest);
+//                    LOGGER.info(rawRequest);
                     HttpRequest request = new HttpRequest(rawRequest);
-                    request.info();
+//                    request.info();
                     dispatcher.execute(request, socket.getOutputStream());
                 }
             }

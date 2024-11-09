@@ -37,8 +37,9 @@ public class HttpRequest {
 
     public HttpRequest(String rawRequest) {
         this.rawRequest = rawRequest;
-        this.parse();
         parseHeaders();
+        this.parse();
+        getBoundary();
     }
 
     public String getParameter(String key) {
@@ -67,6 +68,9 @@ public class HttpRequest {
         if (method == HttpMethod.POST) {
             this.body = rawRequest.substring(rawRequest.indexOf("\r\n\r\n") + 4);
         }
+        if(method == HttpMethod.PUT) {
+            this.body = rawRequest.substring(rawRequest.indexOf(getBoundary()));
+        }
     }
 
     private void parseHeaders() {
@@ -82,16 +86,22 @@ public class HttpRequest {
                 headers.put(key, value);
             }
         }
-
-        LOGGER.debug("Accept-Encoding: " + headers.get("Accept-Encoding"));
-        LOGGER.debug("Connection: " + headers.get("Connection"));
+//        LOGGER.debug(headers);
+//        LOGGER.debug("Accept-Encoding: " + headers.get("Accept-Encoding"));
+//        LOGGER.debug("Connection: " + headers.get("Connection"));
     }
 
     public void info() {
-        LOGGER.debug(rawRequest);
-        LOGGER.info("Method: " + method);
-        LOGGER.info("URI: " + uri);
-        LOGGER.info("Parameters: " + parameters);
-        LOGGER.info("Body: "  + body);
+//        LOGGER.debug(rawRequest);
+//        LOGGER.info("Method: " + method);
+//        LOGGER.info("URI: " + uri);
+//        LOGGER.info("Parameters: " + parameters);
+//        LOGGER.info("Body: "  + body);
+    }
+
+    public String getBoundary() {
+        String boundary = rawRequest.substring(rawRequest.indexOf("boundary") + 9);
+//        System.out.println("BOUNDARY: " + boundary);
+        return rawRequest.substring(rawRequest.indexOf("boundary") + 9);
     }
 }

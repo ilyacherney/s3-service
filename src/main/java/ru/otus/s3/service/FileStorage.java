@@ -13,7 +13,7 @@ public class FileStorage {
         return Files.readAllBytes(filePath);
     }
 
-    public void saveFile(String bucketName, String fileName, byte[] fileData) throws IOException {
+    public static void saveFile(String bucketName, String fileName, byte[] fileData) throws IOException {
         Path bucketPath = Paths.get(BASE_DIR, bucketName);
         Files.createDirectories(bucketPath);
         Path filePath = Paths.get(BASE_DIR, bucketName, fileName);
