@@ -1,6 +1,5 @@
-/target
 /.idea
+/target
 /storage
-/server_repository
-/client_repository
-logs/
+/loga
+.iml

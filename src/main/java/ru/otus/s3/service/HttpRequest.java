@@ -39,7 +39,7 @@ public class HttpRequest {
         this.rawRequest = rawRequest;
         parseHeaders();
         this.parse();
-        getBoundary();
+//        getBoundary();
     }
 
     public String getParameter(String key) {
@@ -69,7 +69,8 @@ public class HttpRequest {
             this.body = rawRequest.substring(rawRequest.indexOf("\r\n\r\n") + 4);
         }
         if(method == HttpMethod.PUT) {
-            this.body = rawRequest.substring(rawRequest.indexOf(getBoundary()));
+            String boundary = HttpRequestBoundaryParser.parse(rawRequest);
+            this.body = HttpRequestBodyParser.parse(rawRequest, boundary);
         }
     }
 
@@ -99,9 +100,4 @@ public class HttpRequest {
 //        LOGGER.info("Body: "  + body);
     }
 
-    public String getBoundary() {
-        String boundary = rawRequest.substring(rawRequest.indexOf("boundary") + 9);
-//        System.out.println("BOUNDARY: " + boundary);
-        return rawRequest.substring(rawRequest.indexOf("boundary") + 9);
-    }
 }
