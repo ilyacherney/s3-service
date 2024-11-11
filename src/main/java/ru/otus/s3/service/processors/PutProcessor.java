@@ -17,6 +17,6 @@ public class PutProcessor implements RequestProcessor {
                 "<html><body><h1>Hello World!!!</h1><table><tr><td>1</td><td>2</td></tr></table></body></html>";
         output.write(response.getBytes(StandardCharsets.UTF_8));
         System.out.println("get body: " + request.getBody());
-        FileStorage.saveFile("first_bucket", "first_file", request.getBody().getBytes());
+        FileStorage.saveFile(request.getBucket(), request.getKey(), request.getBody().getBytes());
     }
 }

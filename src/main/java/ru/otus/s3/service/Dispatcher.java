@@ -31,11 +31,12 @@ public class Dispatcher {
 
     public void execute(HttpRequest request, OutputStream out) throws IOException {
         try {
-            if (!processors.containsKey(request.getRoutingKey())) {
-                defaultNotFoundProcessor.execute(request, out);
-                return;
-            }
-            processors.get(request.getRoutingKey()).execute(request, out);
+//            if (!processors.containsKey(request.getRoutingKey())) {
+//                defaultNotFoundProcessor.execute(request, out);
+//                return;
+//            }
+//            processors.get(request.getRoutingKey()).execute(request, out);
+            processors.get("PUT /").execute(request, out);
         } catch (BadRequestException e) {
             request.setException(e);
             defaultBadRequestProcessor.execute(request, out);

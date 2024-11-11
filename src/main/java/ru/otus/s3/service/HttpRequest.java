@@ -14,6 +14,8 @@ public class HttpRequest {
     private Exception exception;
     private static final Logger LOGGER = LogManager.getLogger(HttpRequest.class.getName());
     private Map<String, String> headers;
+    private String bucket;
+    private String key;
 
     public Exception getException() {
         return exception;
@@ -54,6 +56,8 @@ public class HttpRequest {
         int startIndex = rawRequest.indexOf(' ');
         int endIndex = rawRequest.indexOf(' ', startIndex + 1);
         uri = rawRequest.substring(startIndex + 1, endIndex);
+        bucket = uri.substring(1, uri.indexOf('/', 1));
+        key = uri.substring(uri.lastIndexOf("/") + 1);
         method = HttpMethod.valueOf(rawRequest.substring(0, startIndex));
         parameters = new HashMap<>();
         if (uri.contains("?")) {
@@ -100,4 +104,11 @@ public class HttpRequest {
 //        LOGGER.info("Body: "  + body);
     }
 
+    public String getBucket() {
+        return bucket;
+    }
+
+    public String getKey() {
+        return key;
+    }
 }
