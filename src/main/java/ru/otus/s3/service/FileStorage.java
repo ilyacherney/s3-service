@@ -6,9 +6,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 public class FileStorage {
-    private static final String BASE_DIR = "storage";
+    public static final String BASE_DIR = "storage";
 
-    public byte[] getFile(String bucketName, String fileName) throws IOException {
+    public static byte[] getFile(String bucketName, String fileName) throws IOException {
         Path filePath = Paths.get(BASE_DIR, bucketName, fileName);
         return Files.readAllBytes(filePath);
     }

@@ -111,4 +111,8 @@ public class HttpRequest {
     public String getKey() {
         return key;
     }
+
+    public HttpMethod getMethod() {
+        return method;
+    }
 }
