@@ -16,7 +16,6 @@ public class Dispatcher {
 
     public Dispatcher() {
         this.processors = new HashMap<>();
-//        this.processors.put("GET /", new HelloWorldProcessor());
         this.processors.put("GET", new GetProcessor());
         this.processors.put("PUT", new PutProcessor());
         this.processors.put("POST", new PostProcessor());
