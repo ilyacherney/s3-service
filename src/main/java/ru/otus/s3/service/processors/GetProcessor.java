@@ -17,13 +17,11 @@ public class GetProcessor implements RequestProcessor {
         File file = new File(FileStorage.BASE_DIR + "/" + request.getBucket() + "/" + request.getKey());
         byte[] fileBytes = Files.readAllBytes(file.toPath());
 
-        // Определяем MIME-тип файла
         String contentType = Files.probeContentType(Paths.get(file.getPath()));
         if (contentType == null) {
-            contentType = "application/octet-stream"; // Значение по умолчанию для неизвестных типов
+            contentType = "application/octet-stream";
         }
 
-        // Устанавливаем заголовки для загрузки файла
         String headers = "HTTP/1.1 200 OK\r\n" +
                 "Content-Type: " + contentType + "\r\n" +
                 "Content-Disposition: attachment; filename=\"" + file.getName() + "\"\r\n" +
@@ -31,7 +29,7 @@ public class GetProcessor implements RequestProcessor {
                 "\r\n";
 
         output.write(headers.getBytes());
-        output.write(fileBytes); // Тело ответа (файл)
+        output.write(fileBytes);
         output.flush();
     }
 }

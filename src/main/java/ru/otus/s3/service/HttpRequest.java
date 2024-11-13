@@ -41,7 +41,6 @@ public class HttpRequest {
         this.rawRequest = rawRequest;
         parseHeaders();
         this.parse();
-//        getBoundary();
     }
 
     public String getParameter(String key) {
@@ -56,9 +55,7 @@ public class HttpRequest {
         int startIndex = rawRequest.indexOf(' ');
         int endIndex = rawRequest.indexOf(' ', startIndex + 1);
         uri = rawRequest.substring(startIndex + 1, endIndex);
-//        bucket = uri.substring(1, uri.indexOf('/', 1));
 
-        //Проверяем наличие ключа
         if (uri.indexOf('/') != uri.lastIndexOf('/')) {
             bucket = uri.substring(1, uri.indexOf('/', 1));
             key = uri.substring(uri.lastIndexOf("/") + 1);
@@ -76,9 +73,6 @@ public class HttpRequest {
                 parameters.put(keyValue[0], keyValue[1]);
             }
         }
-//        if (method == HttpMethod.POST) {
-//            this.body = rawRequest.substring(rawRequest.indexOf("\r\n\r\n") + 4);
-//        }
         if(method == HttpMethod.PUT) {
             String boundary = HttpRequestBoundaryParser.parse(rawRequest);
             this.body = HttpRequestBodyParser.parse(rawRequest, boundary);
@@ -86,29 +80,18 @@ public class HttpRequest {
     }
 
     private void parseHeaders() {
-        String rawHeaders = rawRequest.substring(rawRequest.indexOf("\r\n") + 2); // Пропустим первую строку запроса
-        String[] lines = rawHeaders.split("\r\n"); // Разделяем на строки по разделителю строк
+        String rawHeaders = rawRequest.substring(rawRequest.indexOf("\r\n") + 2);
+        String[] lines = rawHeaders.split("\r\n");
 
         headers = new HashMap<>();
         for (String line : lines) {
             int index = line.indexOf(": ");
             if (index != -1) {
-                String key = line.substring(0, index).trim(); // Заголовок (до ": ")
-                String value = line.substring(index + 2).trim(); // Значение (после ": ")
+                String key = line.substring(0, index).trim();
+                String value = line.substring(index + 2).trim();
                 headers.put(key, value);
             }
         }
-//        LOGGER.debug(headers);
-//        LOGGER.debug("Accept-Encoding: " + headers.get("Accept-Encoding"));
-//        LOGGER.debug("Connection: " + headers.get("Connection"));
-    }
-
-    public void info() {
-//        LOGGER.debug(rawRequest);
-//        LOGGER.info("Method: " + method);
-//        LOGGER.info("URI: " + uri);
-//        LOGGER.info("Parameters: " + parameters);
-//        LOGGER.info("Body: "  + body);
     }
 
     public String getBucket() {

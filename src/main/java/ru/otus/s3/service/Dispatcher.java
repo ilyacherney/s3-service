@@ -28,12 +28,6 @@ public class Dispatcher {
 
     public void execute(HttpRequest request, OutputStream out) throws IOException {
         try {
-//            if (!processors.containsKey(request.getMethod())) {
-//                defaultNotFoundProcessor.execute(request, out);
-//                return;
-//            }
-//            processors.get(request.getRoutingKey()).execute(request, out);
-//            processors.get(request.getMethod()).execute(request, out);
             processors.get(request.getMethod().toString()).execute(request, out);
         } catch (BadRequestException e) {
             request.setException(e);
