@@ -14,14 +14,18 @@ public class FileStorage {
     }
 
     public static void saveFile(String bucketName, String fileName, byte[] fileData) throws IOException {
-        Path bucketPath = Paths.get(BASE_DIR, bucketName);
-        Files.createDirectories(bucketPath);
+        createBucket(bucketName);
         Path filePath = Paths.get(BASE_DIR, bucketName, fileName);
         Files.write(filePath, fileData);
     }
 
-    public void deleteFile(String bucketName, String fileName) throws IOException {
+    public static void deleteFile(String bucketName, String fileName) throws IOException {
         Path filePath = Paths.get(BASE_DIR, bucketName, fileName);
         Files.deleteIfExists(filePath);
+    }
+
+    public static void createBucket(String bucketName) throws IOException {
+        Path bucketPath = Paths.get(BASE_DIR, bucketName);
+        Files.createDirectories(bucketPath);
     }
 }

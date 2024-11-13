@@ -56,8 +56,15 @@ public class HttpRequest {
         int startIndex = rawRequest.indexOf(' ');
         int endIndex = rawRequest.indexOf(' ', startIndex + 1);
         uri = rawRequest.substring(startIndex + 1, endIndex);
-        bucket = uri.substring(1, uri.indexOf('/', 1));
-        key = uri.substring(uri.lastIndexOf("/") + 1);
+//        bucket = uri.substring(1, uri.indexOf('/', 1));
+
+        //Проверяем наличие ключа
+        if (uri.indexOf('/') != uri.lastIndexOf('/')) {
+            bucket = uri.substring(1, uri.indexOf('/', 1));
+            key = uri.substring(uri.lastIndexOf("/") + 1);
+        } else {
+            bucket = uri.substring(1);
+        }
         method = HttpMethod.valueOf(rawRequest.substring(0, startIndex));
         parameters = new HashMap<>();
         if (uri.contains("?")) {
@@ -69,9 +76,9 @@ public class HttpRequest {
                 parameters.put(keyValue[0], keyValue[1]);
             }
         }
-        if (method == HttpMethod.POST) {
-            this.body = rawRequest.substring(rawRequest.indexOf("\r\n\r\n") + 4);
-        }
+//        if (method == HttpMethod.POST) {
+//            this.body = rawRequest.substring(rawRequest.indexOf("\r\n\r\n") + 4);
+//        }
         if(method == HttpMethod.PUT) {
             String boundary = HttpRequestBoundaryParser.parse(rawRequest);
             this.body = HttpRequestBodyParser.parse(rawRequest, boundary);

@@ -19,6 +19,8 @@ public class Dispatcher {
 //        this.processors.put("GET /", new HelloWorldProcessor());
         this.processors.put("GET", new GetProcessor());
         this.processors.put("PUT", new PutProcessor());
+        this.processors.put("POST", new PostProcessor());
+        this.processors.put("DELETE", new DeleteProcessor());
         this.defaultNotFoundProcessor = new DefaultNotFoundProcessor();
         this.defaultInternalServerErrorProcessor = new DefaultInternalServerErrorProcessor();
         this.defaultBadRequestProcessor = new DefaultBadRequestProcessor();
