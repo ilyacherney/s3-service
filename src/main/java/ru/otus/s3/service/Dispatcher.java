@@ -1,6 +1,5 @@
 package ru.otus.s3.service;
 
-import ru.otus.s3.service.app.ItemsRepository;
 import ru.otus.s3.service.processors.*;
 
 import java.io.IOException;
@@ -14,16 +13,11 @@ public class Dispatcher {
     private RequestProcessor defaultInternalServerErrorProcessor;
     private RequestProcessor defaultBadRequestProcessor;
 
-    private ItemsRepository itemsRepository;
 
     public Dispatcher() {
-        this.itemsRepository = new ItemsRepository();
         this.processors = new HashMap<>();
 //        this.processors.put("GET /", new HelloWorldProcessor());
         this.processors.put("GET", new GetProcessor());
-        this.processors.put("GET /calculator", new CalculatorProcessor());
-        this.processors.put("GET /items", new GetAllItemsProcessor(itemsRepository));
-        this.processors.put("POST /items", new CreateNewItemsProcessor(itemsRepository));
         this.processors.put("PUT", new PutProcessor());
         this.defaultNotFoundProcessor = new DefaultNotFoundProcessor();
         this.defaultInternalServerErrorProcessor = new DefaultInternalServerErrorProcessor();
@@ -38,7 +32,7 @@ public class Dispatcher {
 //            }
 //            processors.get(request.getRoutingKey()).execute(request, out);
 //            processors.get(request.getMethod()).execute(request, out);
-            processors.get("GET").execute(request, out);
+            processors.get(request.getMethod().toString()).execute(request, out);
         } catch (BadRequestException e) {
             request.setException(e);
             defaultBadRequestProcessor.execute(request, out);
