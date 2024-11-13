@@ -15,7 +15,11 @@ public class DeleteProcessor implements RequestProcessor {
     public void execute(HttpRequest request, OutputStream output) throws IOException {
         String bucket = request.getBucket();
         String key = request.getKey();
-        FileStorage.deleteFile(bucket, key);
+        if (key != null) {
+            FileStorage.deleteFile(bucket, key);
+        } else {
+            FileStorage.deleteBucket(bucket);
+        }
 
         String response = "" +
                 "HTTP/1.1 200 OK\r\n" +

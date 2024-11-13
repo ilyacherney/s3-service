@@ -28,4 +28,9 @@ public class FileStorage {
         Path bucketPath = Paths.get(BASE_DIR, bucketName);
         Files.createDirectories(bucketPath);
     }
+
+    public static void deleteBucket(String bucketName) throws IOException {
+        Path bucketPath = Paths.get(BASE_DIR, bucketName);
+        Files.deleteIfExists(bucketPath);
+    }
 }
