@@ -14,7 +14,7 @@ public class PutProcessor implements RequestProcessor {
                 "HTTP/1.1 200 OK\r\n" +
                 "Content-Type: text/html\r\n" +
                 "\r\n" +
-                "<html><body><h1>Hello World!!!</h1><table><tr><td>1</td><td>2</td></tr></table></body></html>";
+                "<html><body><h1>File uploaded.</h1><table><tr><td>1</td><td>2</td></tr></table></body></html>";
         output.write(response.getBytes(StandardCharsets.UTF_8));
         System.out.println("get body: " + request.getBody());
         FileStorage.saveFile(request.getBucket(), request.getKey(), request.getBody().getBytes());
