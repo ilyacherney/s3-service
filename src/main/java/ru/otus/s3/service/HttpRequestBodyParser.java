@@ -16,7 +16,8 @@ public class HttpRequestBodyParser {
         int contentStartIndex = bodyFirstBoundaryEndIndex + NEW_LINE_LENGTH;
         int bodyLastBoundaryStartIndex = rawRequest.indexOf(boundary, contentStartIndex);
         int contentEndIndex = bodyLastBoundaryStartIndex - NEW_LINE_LENGTH;
-        String boundariesContent = rawRequest.substring(contentStartIndex, contentEndIndex);
+        String boundariesContent;
+        boundariesContent = rawRequest.substring(contentStartIndex, contentEndIndex);
         return boundariesContent;
     }
 
