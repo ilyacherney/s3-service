@@ -1,7 +1,6 @@
-package ru.otus.october.http.server;
+package ru.otus.s3.service;
 
-import ru.otus.october.http.server.app.ItemsRepository;
-import ru.otus.october.http.server.processors.*;
+import ru.otus.s3.service.processors.*;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,15 +13,13 @@ public class Dispatcher {
     private RequestProcessor defaultInternalServerErrorProcessor;
     private RequestProcessor defaultBadRequestProcessor;
 
-    private ItemsRepository itemsRepository;
 
     public Dispatcher() {
-        this.itemsRepository = new ItemsRepository();
         this.processors = new HashMap<>();
-        this.processors.put("GET /", new HelloWorldProcessor());
-        this.processors.put("GET /calculator", new CalculatorProcessor());
-        this.processors.put("GET /items", new GetAllItemsProcessor(itemsRepository));
-        this.processors.put("POST /items", new CreateNewItemsProcessor(itemsRepository));
+        this.processors.put("GET", new GetProcessor());
+        this.processors.put("PUT", new PutProcessor());
+        this.processors.put("POST", new PostProcessor());
+        this.processors.put("DELETE", new DeleteProcessor());
         this.defaultNotFoundProcessor = new DefaultNotFoundProcessor();
         this.defaultInternalServerErrorProcessor = new DefaultInternalServerErrorProcessor();
         this.defaultBadRequestProcessor = new DefaultBadRequestProcessor();
@@ -30,11 +27,7 @@ public class Dispatcher {
 
     public void execute(HttpRequest request, OutputStream out) throws IOException {
         try {
-            if (!processors.containsKey(request.getRoutingKey())) {
-                defaultNotFoundProcessor.execute(request, out);
-                return;
-            }
-            processors.get(request.getRoutingKey()).execute(request, out);
+            processors.get(request.getMethod().toString()).execute(request, out);
         } catch (BadRequestException e) {
             request.setException(e);
             defaultBadRequestProcessor.execute(request, out);

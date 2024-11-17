@@ -1,4 +1,4 @@
-package ru.otus.october.http.server;
+package ru.otus.s3.service;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,6 +26,7 @@ public class HttpServer {
             LOGGER.info("Сервер запущен на порту: " + port);
             while (true) {
                 try (Socket socket = serverSocket.accept()) {
+                    LOGGER.info("Соединение установлено.");
                     byte[] buffer = new byte[8192];
                     int n = socket.getInputStream().read(buffer);
                     if (n < 1) {
@@ -33,7 +34,6 @@ public class HttpServer {
                     }
                     String rawRequest = new String(buffer, 0, n);
                     HttpRequest request = new HttpRequest(rawRequest);
-                    request.info();
                     dispatcher.execute(request, socket.getOutputStream());
                 }
             }

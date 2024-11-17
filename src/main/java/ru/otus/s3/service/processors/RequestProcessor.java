@@ -1,6 +1,6 @@
-package ru.otus.october.http.server.processors;
+package ru.otus.s3.service.processors;
 
-import ru.otus.october.http.server.HttpRequest;
+import ru.otus.s3.service.HttpRequest;
 
 import java.io.IOException;
 import java.io.OutputStream;

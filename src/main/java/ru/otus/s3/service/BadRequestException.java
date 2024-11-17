@@ -1,4 +1,4 @@
-package ru.otus.october.http.server;
+package ru.otus.s3.service;
 
 public class BadRequestException extends RuntimeException {
     public BadRequestException(String message) {
